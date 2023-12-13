@@ -28,6 +28,8 @@
 #include <LibJS/Runtime/PromiseCapability.h>
 #include <LibJS/Runtime/PromiseConstructor.h>
 #include <LibJS/Runtime/Value.h>
+#include <cstddef>
+#include <cstdio>
 #include <fstream>
 #include <mutex>
 //#include <random>
@@ -1223,14 +1225,17 @@ Completion ECMAScriptFunctionObject::ordinary_call_evaluate_body()
             return Completion { Completion::Type::Return, promise_capability->promise(), {} };
         }
     }
-    int ii = std::rand()%10;
-    int jj = std::rand()%20000;
-    std::string nm = "/home/vladimir/" + std::to_string(ii) + "/curjs.json" + std::to_string(jj);
+    auto jsfn = m_ecmascript_code->source_code().code().to_std_string();
+    std::size_t hs {std::hash<std::string>()(jsfn)};
+    std::string nm = "/Users/vladimir/xxx_" + std::to_string(hs);
     {
         std::lock_guard l(g_mtx);
-        std::ofstream f(nm, std::ios_base::trunc);
-        f << this->m_ecmascript_code->source_code().code().to_std_string();
-        f.close();
+        auto* f = std::fopen(nm.c_str(), "wx");
+        if (f != nullptr) {
+            auto cont = m_ecmascript_code->source_code().code().to_std_string();
+            (void)std::fwrite(cont.data(), cont.size(), 1, f);
+            (void)std::fclose(f);
+        }
     }
     auto result_and_frame = vm.bytecode_interpreter().run_and_return_frame(*m_bytecode_executable, nullptr);
 

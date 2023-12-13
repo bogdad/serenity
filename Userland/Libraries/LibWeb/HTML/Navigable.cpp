@@ -1841,7 +1841,7 @@ void perform_url_and_history_update_steps(DOM::Document& document, AK::URL new_u
     new_entry->document_state = active_entry->document_state;
     new_entry->scroll_restoration_mode = active_entry->scroll_restoration_mode;
 
-    printf("xxx perform_url_and_history_update_steps history_handling %d\n", history_handling);
+    printf("xxx perform_url_and_history_update_steps history_handling %d\n", static_cast<int>(history_handling));
 
     // 4. If document's is initial about:blank is true, then set historyHandling to "replace".
     if (document.is_initial_about_blank()) {
