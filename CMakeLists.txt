@@ -171,7 +171,7 @@ add_compile_definitions(SANITIZE_PTRS)
 if (ENABLE_COMPILETIME_FORMAT_CHECK)
     add_compile_definitions(ENABLE_COMPILETIME_FORMAT_CHECK)
 endif()
-
+                                                                                                                            
 if("${SERENITY_ARCH}" STREQUAL "aarch64")
     # FIXME: re-enable this warning
     add_compile_options(-Wno-type-limits)

@@ -13,6 +13,7 @@
 #include <AK/StringView.h>
 #include <AK/Utf8View.h>
 #include <AK/Vector.h>
+#include <cstdio>
 
 namespace AK {
 
@@ -433,6 +434,14 @@ ErrorOr<DeprecatedString> DeprecatedString::from_utf8(ReadonlyBytes bytes)
     if (!Utf8View(bytes).validate())
         return Error::from_string_literal("DeprecatedString::from_utf8: Input was not valid UTF-8");
     return DeprecatedString { *StringImpl::create(bytes) };
+}
+
+void xxxxxprint(int sz, const unsigned char * data) {
+    printf("%.*s", sz, data);
+}
+
+void DeprecatedString::xxxprintf() const {
+    xxxxxprint((int) bytes().size(), bytes().data());
 }
 
 }

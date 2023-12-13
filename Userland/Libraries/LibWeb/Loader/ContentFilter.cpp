@@ -27,8 +27,10 @@ bool ContentFilter::is_filtered(const AK::URL& url) const
     auto url_string = url.to_deprecated_string();
 
     for (auto& pattern : m_patterns) {
-        if (url_string.matches(pattern.text, CaseSensitivity::CaseSensitive))
+        if (url_string.matches(pattern.text, CaseSensitivity::CaseSensitive)) {
+            printf("xxx pattern matches %.*s %.*s\n", (int)pattern.text.bytes().size(), pattern.text.bytes().data(), (int)url_string.bytes().size(), url_string.bytes().data());
             return true;
+	}
     }
     return false;
 }

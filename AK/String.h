@@ -22,6 +22,7 @@
 #include <AK/UnicodeUtils.h>
 #include <AK/Utf8View.h>
 #include <AK/Vector.h>
+#include <string>
 
 namespace AK {
 
@@ -227,6 +228,7 @@ public:
     requires(IsSame<RemoveCVReference<T>, StringView>)
     static ErrorOr<String> from_deprecated_string(T&&) = delete;
 
+    std::string to_std_string() const;
 private:
     // NOTE: If the least significant bit of the pointer is set, this is a short string.
     static constexpr uintptr_t SHORT_STRING_FLAG = 1;

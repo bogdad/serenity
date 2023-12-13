@@ -14,4 +14,4 @@ serenity_option(BUILD_LAGOM OFF CACHE BOOL "Build parts of the system targeting 
 serenity_option(ENABLE_LAGOM_CCACHE ON CACHE BOOL "Enable ccache for Lagom builds")
 serenity_option(ENABLE_LAGOM_LIBWEB ON CACHE BOOL "Enable compiling LibWeb for Lagom builds")
 serenity_option(ENABLE_LAGOM_LADYBIRD OFF CACHE BOOL "Enable compiling Ladybird from Lagom")
-serenity_option(LAGOM_USE_LINKER "" CACHE STRING "The linker to use (e.g. lld, mold) instead of the system default")
+serenity_option(LAGOM_USE_LINKER "mold" CACHE STRING "The linker to use (e.g. lld, mold) instead of the system default")

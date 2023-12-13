@@ -1472,6 +1472,7 @@ WebIDL::ExceptionOr<void> Navigable::navigate_to_a_fragment(AK::URL const& url, 
     // 17. Append the following session history synchronous navigation steps involving navigable to traversable:
     traversable->append_session_history_traversal_steps([this, traversable, history_entry, entry_to_replace] {
         // 1. Finalize a same-document navigation given traversable, navigable, historyEntry, and entryToReplace.
+        printf("xxxx navigate_to_a_fragment\n");
         finalize_a_same_document_navigation(*traversable, *this, history_entry, entry_to_replace);
 
         // FIXME: 2. Invoke WebDriver BiDi fragment navigated with navigable's active browsing context and a new WebDriver BiDi
@@ -1840,6 +1841,8 @@ void perform_url_and_history_update_steps(DOM::Document& document, AK::URL new_u
     new_entry->document_state = active_entry->document_state;
     new_entry->scroll_restoration_mode = active_entry->scroll_restoration_mode;
 
+    printf("xxx perform_url_and_history_update_steps history_handling %d\n", history_handling);
+
     // 4. If document's is initial about:blank is true, then set historyHandling to "replace".
     if (document.is_initial_about_blank()) {
         history_handling = HistoryHandlingBehavior::Replace;
@@ -1875,6 +1878,7 @@ void perform_url_and_history_update_steps(DOM::Document& document, AK::URL new_u
     // 13. Append the following session history synchronous navigation steps involving navigable to traversable:
     traversable->append_session_history_traversal_steps([traversable, navigable, new_entry, entry_to_replace] {
         // 1. Finalize a same-document navigation given traversable, navigable, newEntry, and entryToReplace.
+        printf("xxx perform_url_and_history_update_steps\n");
         finalize_a_same_document_navigation(*traversable, *navigable, new_entry, entry_to_replace);
     });
 }
@@ -2022,6 +2026,10 @@ void Navigable::inform_the_navigation_api_about_aborting_navigation()
         // 4. Abort the ongoing navigation given navigation.
         navigation->abort_the_ongoing_navigation();
     });
+}
+
+const String &Navigable::get_id() const {
+    return m_id;
 }
 
 }

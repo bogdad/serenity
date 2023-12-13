@@ -170,6 +170,8 @@ public:
 
     [[nodiscard]] TargetSnapshotParams snapshot_target_snapshot_params();
 
+    const String &get_id() const;
+
 protected:
     Navigable();
 

@@ -13,8 +13,11 @@
 #include <AK/StringImpl.h>
 #include <AK/StringUtils.h>
 #include <AK/Traits.h>
+#include <cstdio>
 
 namespace AK {
+
+void xxxxxprint(int sz, const unsigned char * data);
 
 // DeprecatedString is a convenience wrapper around StringImpl, suitable for passing
 // around as a value type. It's basically the same as passing around a
@@ -302,6 +305,8 @@ public:
                 return this->equals_ignoring_ascii_case(forward<Ts>(strings));
         }());
     }
+
+    void xxxprintf() const;
 
 private:
     NonnullRefPtr<StringImpl const> m_impl;

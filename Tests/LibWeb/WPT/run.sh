@@ -57,7 +57,7 @@ fi
 python3 ./concat-extract-metadata.py --extract metadata.txt metadata
 
 # Generate name for file with wpt run log
-wpt_run_log_filename="$(mktemp).txt"
+wpt_run_log_filename="/home/vladimir/wptlog.txt"
 
 # Run tests.
 python3 ./wpt/wpt run ladybird \

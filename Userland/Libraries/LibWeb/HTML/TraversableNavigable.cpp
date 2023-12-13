@@ -642,14 +642,29 @@ void finalize_a_same_document_navigation(JS::NonnullGCPtr<TraversableNavigable> 
         // 4. Append targetEntry to targetEntries.
         target_entries.append(target_entry);
     } else {
+        auto bytes = target_navigable->get_id().bytes();
+        auto tbytes = traversable->get_id().bytes();
+        printf("xxxx traversable id %.*s target_navigable id %.*s entry to replace\n", (int) tbytes.size(), tbytes.data(), (int) bytes.size(), bytes.data());
         // 1. Replace entryToReplace with targetEntry in targetEntries.
-        *(target_entries.find(*entry_to_replace)) = target_entry;
+        auto er_url = (entry_to_replace->url.to_deprecated_string());
+        printf("xxxx er_url "); er_url.xxxprintf(); printf(" er_step %d", entry_to_replace->step.index());printf("\n xxxx all entries\n");
+        for (auto &&entry: target_entries) {
+            printf("xxxx url "); entry->url.to_deprecated_string().xxxprintf();printf(" step %d\n",entry->step.index());
+        }
 
+        auto iter = target_entries.find(*entry_to_replace);
+        if (iter == target_entries.end()) {
+            printf("xxx entry to replace dissappeared from target_entries!!!\n");
+        }
+        *iter = target_entry;
+        printf("xxxx after 1\n");
         // 2. Set targetEntry's step to entryToReplace's step.
         target_entry->step = entry_to_replace->step;
 
+        printf("xxxx after 2\n");
         // 3. Set targetStep to traversable's current session history step.
         target_step = traversable->current_session_history_step();
+        printf("xxxx /entry to replace\n");
     }
 
     // 6. Apply the push/replace history step targetStep to traversable.

@@ -13,6 +13,7 @@
 #include <AK/String.h>
 #include <AK/Vector.h>
 #include <stdlib.h>
+#include <string>
 
 namespace AK {
 
@@ -634,6 +635,11 @@ ErrorOr<String> String::from_deprecated_string(DeprecatedString const& deprecate
 bool String::equals_ignoring_ascii_case(StringView other) const
 {
     return StringUtils::equals_ignoring_ascii_case(bytes_as_string_view(), other);
+}
+
+std::string String::to_std_string() const {
+    auto b = bytes();
+    return std::string((char *)b.data(), b.size());
 }
 
 }

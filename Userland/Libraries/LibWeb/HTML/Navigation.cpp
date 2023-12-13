@@ -1077,6 +1077,7 @@ bool Navigation::inner_navigate_event_firing_algorithm(
         // FIXME: Pass the serialized data to this algorithm
         if (navigation_type == Bindings::NavigationType::Push || navigation_type == Bindings::NavigationType::Replace) {
             auto history_handling = navigation_type == Bindings::NavigationType::Push ? HistoryHandlingBehavior::Push : HistoryHandlingBehavior::Replace;
+            printf("xxx inner_navigate_event_firing_algorithm\n");
             perform_url_and_history_update_steps(document, event->destination()->raw_url(), history_handling);
         }
         // Big spec note about reload here

@@ -44,6 +44,7 @@ void History::visit_edges(Cell::Visitor& visitor)
 // The pushState(data, unused, url) method steps are to run the shared history push/replace state steps given this, data, url, and "push".
 WebIDL::ExceptionOr<void> History::push_state(JS::Value data, String const&, Optional<String> const& url)
 {
+    printf("xxx History::push_state\n");
     return shared_history_push_replace_state(data, url, HistoryHandlingBehavior::Push);
 }
 
@@ -51,6 +52,7 @@ WebIDL::ExceptionOr<void> History::push_state(JS::Value data, String const&, Opt
 // The replaceState(data, unused, url) method steps are to run the shared history push/replace state steps given this, data, url, and "replace".
 WebIDL::ExceptionOr<void> History::replace_state(JS::Value data, String const&, Optional<String> const& url)
 {
+     printf("xxx History::replace_state\n");
     return shared_history_push_replace_state(data, url, HistoryHandlingBehavior::Replace);
 }
 
@@ -199,6 +201,7 @@ WebIDL::ExceptionOr<void> History::shared_history_push_replace_state(JS::Value v
 
     // 10. Run the URL and history update steps given document and newURL, with serializedData set to
     //     serializedData and historyHandling set to historyHandling.
+    printf("xxx shared_history_push_replace_state\n");
     perform_url_and_history_update_steps(document, new_url, history_handling);
 
     return {};

@@ -384,6 +384,7 @@ WebIDL::ExceptionOr<JS::GCPtr<WindowProxy>> Window::open_impl(StringView url, St
 
         // 6. If urlRecord matches about:blank, then perform the URL and history update steps given targetNavigable's active document and urlRecord.
         if (url_matches_about_blank(url_record)) {
+            printf("xxx open_impl\n");
             perform_url_and_history_update_steps(*target_navigable->active_document(), url_record);
         }
 

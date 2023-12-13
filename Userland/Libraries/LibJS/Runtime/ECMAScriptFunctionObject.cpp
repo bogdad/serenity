@@ -28,6 +28,10 @@
 #include <LibJS/Runtime/PromiseCapability.h>
 #include <LibJS/Runtime/PromiseConstructor.h>
 #include <LibJS/Runtime/Value.h>
+#include <fstream>
+#include <mutex>
+//#include <random>
+#include <string>
 
 namespace JS {
 
@@ -1165,6 +1169,9 @@ template void async_function_start(VM&, PromiseCapability const&, SafeFunction<C
 
 // 10.2.1.4 OrdinaryCallEvaluateBody ( F, argumentsList ), https://tc39.es/ecma262/#sec-ordinarycallevaluatebody
 // 15.8.4 Runtime Semantics: EvaluateAsyncFunctionBody, https://tc39.es/ecma262/#sec-runtime-semantics-evaluatefunctionbody
+
+std::mutex g_mtx{};
+
 Completion ECMAScriptFunctionObject::ordinary_call_evaluate_body()
 {
     auto& vm = this->vm();
@@ -1216,7 +1223,15 @@ Completion ECMAScriptFunctionObject::ordinary_call_evaluate_body()
             return Completion { Completion::Type::Return, promise_capability->promise(), {} };
         }
     }
-
+    int ii = std::rand()%10;
+    int jj = std::rand()%20000;
+    std::string nm = "/home/vladimir/" + std::to_string(ii) + "/curjs.json" + std::to_string(jj);
+    {
+        std::lock_guard l(g_mtx);
+        std::ofstream f(nm, std::ios_base::trunc);
+        f << this->m_ecmascript_code->source_code().code().to_std_string();
+        f.close();
+    }
     auto result_and_frame = vm.bytecode_interpreter().run_and_return_frame(*m_bytecode_executable, nullptr);
 
     VERIFY(result_and_frame.frame != nullptr);
