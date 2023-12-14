@@ -551,8 +551,9 @@ if (BUILD_LAGOM)
             add_serenity_subdirectory(Meta/Lagom/Contrib/MacPDF)
         endif()
 
-        find_package(SDL2 QUIET)
+        find_package(SDL2 REQUIRED)
         if (SDL2_FOUND)
+            message(INFO "xxxxxxxxx sdl 2 found ${SDL2_INCLUDE_DIR}")
             add_serenity_subdirectory(Meta/Lagom/Contrib/VideoPlayerSDL)
         endif()
 
