@@ -1,0 +1,12 @@
+<script src="../include.js"></script>
+<script>
+    asyncTest(done => {
+        history.replaceState({}, "hello", "history-replace-push-state-race.html");
+        history.replaceState({}, "hello", "history-replace-push-state-race.html");
+
+        setTimeout(() => {
+            println("setTimeout completed");
+            done();
+        }, 0);
+    });
+</script>
