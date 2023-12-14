@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
+#include "LibJS/Heap/GCPtr.h"
 #include <AK/QuickSort.h>
 #include <LibWeb/Bindings/MainThreadVM.h>
 #include <LibWeb/DOM/Document.h>
@@ -647,15 +648,22 @@ void finalize_a_same_document_navigation(JS::NonnullGCPtr<TraversableNavigable> 
         printf("xxxx traversable id %.*s target_navigable id %.*s entry to replace\n", (int) tbytes.size(), tbytes.data(), (int) bytes.size(), bytes.data());
         // 1. Replace entryToReplace with targetEntry in targetEntries.
         auto er_url = (entry_to_replace->url.to_deprecated_string());
-        printf("xxxx er_url "); er_url.xxxprintf(); printf(" er_step %d", entry_to_replace->step.index());printf("\n xxxx all entries\n");
+        printf("xxxx er_url "); er_url.xxxprintf(); 
+        printf(" ");entry_to_replace->navigation_api_key.to_deprecated_string().xxxprintf();
+        printf(" ");entry_to_replace->navigation_api_id.to_deprecated_string().xxxprintf();
+        printf(" er_step %d", entry_to_replace->step.index());printf("\n xxxx all entries\n");
         for (auto &&entry: target_entries) {
-            printf("xxxx url "); entry->url.to_deprecated_string().xxxprintf();printf(" step %d\n",entry->step.index());
+            printf("xxxx url "); entry->url.to_deprecated_string().xxxprintf();
+            printf(" ");entry->navigation_api_key.to_deprecated_string().xxxprintf();
+            printf(" ");entry->navigation_api_id.to_deprecated_string().xxxprintf();printf(" step %d\n",entry->step.index());
         }
 
-        auto iter = target_entries.find(*entry_to_replace);
-        if (iter == target_entries.end()) {
-            printf("xxx entry to replace dissappeared from target_entries!!!\n");
-        }
+        auto get_key_id_equals = [&entry_to_replace](const JS::GCPtr<SessionHistoryEntry>& session_history_entry) {
+            return session_history_entry->navigation_api_key == entry_to_replace->navigation_api_key
+            && session_history_entry->navigation_api_id == entry_to_replace->navigation_api_id; 
+        };
+
+        auto iter = std::find_if(target_entries.begin(), target_entries.end(), get_key_id_equals);
         *iter = target_entry;
         printf("xxxx after 1\n");
         // 2. Set targetEntry's step to entryToReplace's step.
