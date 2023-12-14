@@ -201,6 +201,9 @@ WebIDL::ExceptionOr<void> History::shared_history_push_replace_state(JS::Value v
     //     serializedData and historyHandling set to historyHandling.
     perform_url_and_history_update_steps(document, new_url, history_handling);
 
+    // NOTE: Not in the spec but we need to make sure that history traversal queue is done to take care of race conditions
+    navigable->traversable_navigable()->process_session_history_traversal_queue();
+
     return {};
 }
 

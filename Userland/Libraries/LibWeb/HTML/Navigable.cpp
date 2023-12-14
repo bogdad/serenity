@@ -1818,6 +1818,9 @@ void finalize_a_cross_document_navigation(JS::NonnullGCPtr<Navigable> navigable,
 
     // 10. Apply the push/replace history step targetStep to traversable.
     traversable->apply_the_push_or_replace_history_step(target_step);
+
+    // NOTE: Not in the spec but we need to make sure that history traversal queue is done to take care of race conditions
+    traversable->process_session_history_traversal_queue();
 }
 
 // https://html.spec.whatwg.org/multipage/browsing-the-web.html#url-and-history-update-steps
